@@ -1,7 +1,8 @@
 #!/usr/bin/env lua
 -- pa2_test.lua
 -- Glenn G. Chappell
--- 2022-02-01
+-- Started: 2022-02-01
+-- Updated: 2022-02-07
 --
 -- For CS F331 / CSCE A331 Spring 2022
 -- Test Program for Assignment 2 Functions
@@ -314,13 +315,13 @@ function test_mapTable(t)
         t:test(success, msg)
         if not success then
             io.write("Expect: ")
-            printTable(expect)
+            printValue(expect, max_table_items)
             io.write("\n")
             io.write("Actual: ")
-            printTable(outv)
+            printValue(outv, max_table_items)
             io.write("\n")
             io.write("\n")
-            fail_exit()
+            failExit()
         end
     end
 
@@ -456,7 +457,7 @@ function test_concatMax(t)
             io.write("Expect: "..expect.."\n")
             io.write("Actual: "..outs.."\n")
             io.write("\n")
-            fail_exit()
+            failExit()
         end
     end
 
@@ -499,13 +500,13 @@ function test_collatz(t)
         t:test(success, "sequence starting at "..inv)
         if not success then
             io.write("Expect (yielded values): ")
-            printArray(expect)
+            printArray(expect, max_table_items)
             io.write("\n")
             io.write("Actual (yielded values): ")
-            printArray(outv)
+            printArray(outv, max_table_items)
             io.write("\n")
             io.write("\n")
-            fail_exit()
+            failExit()
         end
     end
 
@@ -568,7 +569,7 @@ function test_backSubs(t)
             printArray(outv)
             io.write("\n")
             io.write("\n")
-            fail_exit()
+            failExit()
         end
     end
 
@@ -623,24 +624,8 @@ end
 
 test_pa2(tester)
 io.write("\n")
-if tester:allPassed() then
-    io.write("All tests successful\n")
-else
-    io.write("Tests ********** UNSUCCESSFUL **********\n")
-    io.write("\n")
-    io.write("**************************************************\n")
-    io.write("* This test program is configured to execute all *\n")
-    io.write("* tests, reporting success/failure for each. To  *\n")
-    io.write("* make it exit after the first failing test, set *\n")
-    io.write("* variable                                       *\n")
-    io.write("*                                                *\n")
-    io.write("*   EXIT_ON_FIRST_FAILURE                        *\n")
-    io.write("*                                                *\n")
-    io.write("* to true, near the start of the test program.   *\n")
-    io.write("**************************************************\n")
-end
+endMessage(tester:allPassed())
 
--- Wait for user
-io.write("\nPress ENTER to quit ")
-io.read("*l")
+-- Terminate program, signaling no error
+terminate(0)
 
