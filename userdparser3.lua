@@ -1,9 +1,9 @@
 #!/usr/bin/env lua
 -- userdparser3.lua
 -- Glenn G. Chappell
--- 2021-02-12
+-- 2022-02-14
 --
--- For CS F331 / CSCE A331 Spring 2021
+-- For CS F331 / CSCE A331 Spring 2022
 -- Simple Main Program for rdparser3 Module
 -- Requires rdparser3.lua
 

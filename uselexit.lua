@@ -1,9 +1,9 @@
 #!/usr/bin/env lua
 -- uselexit.lua
 -- Glenn G. Chappell
--- 2021-02-16
+-- 2022-02-08
 --
--- For CS F331 / CSCE A331 Spring 2021
+-- For CS F331 / CSCE A331 Spring 2022
 -- Simple Main Program for lexit Module
 -- Requires lexit.lua
 

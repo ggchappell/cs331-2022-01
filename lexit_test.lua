@@ -1,9 +1,9 @@
 #!/usr/bin/env lua
 -- lexit_test.lua
 -- Glenn G. Chappell
--- 2021-02-11
+-- 2022-02-08
 --
--- For CS F331 / CSCE A331 Spring 2021
+-- For CS F331 / CSCE A331 Spring 2022
 -- Test Program for Module lexit
 -- Used in Assignment 3, Exercise 2
 
