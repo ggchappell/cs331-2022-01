@@ -1,4 +1,4 @@
--- rdparser3.lua  UNFINISHED
+-- rdparser3.lua
 -- Glenn G. Chappell
 -- 2022-02-14
 --
@@ -193,8 +193,28 @@ end
 -- Parsing function for nonterminal "expr".
 -- Function init must be called before this function is called.
 function parse_expr()
-    -- WRITE THIS!!!
-    return false, nil  -- DUMMY
+    local good, ast, saveop, newast
+
+    good, ast = parse_term()
+    if not good then
+        return false, nil
+    end
+
+    while true do
+        saveop = lexstr
+        if not matchString("+") and not matchString("-") then
+            break
+        end
+
+        good, newast = parse_term()
+        if not good then
+            return false, nil
+        end
+
+        ast = { { BIN_OP, saveop }, ast, newast }
+    end
+
+    return true, ast
 end
 
 
@@ -202,8 +222,28 @@ end
 -- Parsing function for nonterminal "term".
 -- Function init must be called before this function is called.
 function parse_term()
-    -- WRITE THIS!!!
-    return false, nil  -- DUMMY
+    local good, ast, saveop, newast
+
+    good, ast = parse_factor()
+    if not good then
+        return false, nil
+    end
+
+    while true do
+        saveop = lexstr
+        if not matchString("*") and not matchString("/") then
+            break
+        end
+
+        good, newast = parse_factor()
+        if not good then
+            return false, nil
+        end
+
+        ast = { { BIN_OP, saveop }, ast, newast }
+    end
+
+    return true, ast
 end
 
 
@@ -211,8 +251,27 @@ end
 -- Parsing function for nonterminal "factor".
 -- Function init must be called before this function is called.
 function parse_factor()
-    -- WRITE THIS!!!
-    return false, nil  -- DUMMY
+    local savelex, good, ast
+
+    savelex = lexstr
+    if matchCat(lexer.ID) then
+        return true, { SIMPLE_VAR, savelex }
+    elseif matchCat(lexer.NUMLIT) then
+        return true, { NUMLIT_VAL, savelex }
+    elseif matchString("(") then
+        good, ast = parse_expr()
+        if not good then
+            return false, nil
+        end
+
+        if not matchString(")") then
+            return false, nil
+        end
+
+        return true, ast
+    else
+        return false, nil
+    end
 end
 
 
