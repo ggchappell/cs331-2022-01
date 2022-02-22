@@ -173,7 +173,7 @@ check("a=3;")
 check("a=a+1;")
 check("a=readnum();")
 check("print(a+1);")
-check("func f(){print(\"yo\")}f();")
+check("func f(){print(\"yo\");}f();")
 check("a=3;print(a+b, cr);")
 check("a[e*2+1]=2;")
 check("\n  # Tenrec Example #1\n  # Glenn G. Chappell\n"..
@@ -181,7 +181,7 @@ check("\n  # Tenrec Example #1\n  # Glenn G. Chappell\n"..
 io.write("### Above should be the AST given in the Assignment 4 "..
          "description,\n")
 io.write("### under 'Introduction'\n")
-check("print();elseif")
+check("print();elif")
 io.write("### Above should be ")
 io.write("\"Bad - extra characters at end\"\n")
 check("func foo() { print(cr")
