@@ -3,7 +3,7 @@
 -- 2022-02-22
 --
 -- For CS F331 / CSCE A331 Spring 2022
--- Code from 2/23 reading - Haskell: Flow of Control
+-- Code from 2/23 reading - Haskell Flow of Control
 
 module Main where
 
