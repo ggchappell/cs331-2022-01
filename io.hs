@@ -12,7 +12,7 @@ import System.IO  -- for hFlush, stdout
 
 main = do
     putStrLn ""
-    putStrLn "This file contains sample code from February 25, 2021,"
+    putStrLn "This file contains sample code from February 25, 2022,"
     putStrLn "for the topic \"Haskell: I/O\"."
     putStrLn "It will execute, but it is not intended to do anything"
     putStrLn "useful. See the source."
