@@ -1,9 +1,10 @@
--- io.hs  UNFINISHED
+-- io.hs
 -- Glenn G. Chappell
--- 2022-02-25
+-- Started: 2022-02-25
+-- Updated: 2022-02-28
 --
 -- For CS F331 / CSCE A331 Spring 2022
--- Code from 2/25 - Haskell: I/O
+-- Code from 2/25 & 2/28 - Haskell: I/O
 
 module Main where
 
@@ -12,8 +13,8 @@ import System.IO  -- for hFlush, stdout
 
 main = do
     putStrLn ""
-    putStrLn "This file contains sample code from February 25, 2022,"
-    putStrLn "for the topic \"Haskell: I/O\"."
+    putStrLn "This file contains sample code from February 25 & 28,"
+    putStrLn "2022, for the topic \"Haskell: I/O\"."
     putStrLn "It will execute, but it is not intended to do anything"
     putStrLn "useful. See the source."
     putStrLn ""
@@ -115,4 +116,103 @@ getPrintRev = getLine >>= (\ line -> putStrLn (reverse line))
 --   getPrint
 --   getPrint'
 --   getPrintRev
+
+
+-- ***** Do-Construction *****
+
+
+-- The do-construction is simple syntactic sugar around the ">>" and
+-- ">>=" operators.
+
+-- inputLength
+-- Input a line from the user, and print a message giving its length.
+inputLength = do
+    putStr "Type some text: "
+    hFlush stdout      -- Make sure prompt comes before input
+    line <- getLine
+    putStrLn ""
+    putStr "You typed: "
+    putStrLn line
+    putStr "Length of your line = "
+    putStrLn $ show $ length line
+
+-- Try:
+--   inputLength
+
+-- Note that, inside an I/O do-block, NAME <- IO_ACTION binds NAME to
+-- the value wrapped by IO_ACTION.
+
+
+-- ***** return *****
+
+
+-- Inside a I/O do-block, "return" creates a do-nothing I/O action
+-- wrapping a value of our choice. It does NOT return.
+--
+--     return x
+-- gives a do-nothing I/O action wrapping the value x.
+--
+--     return ()
+-- gives a do-nothing I/O action wrapping a "nothing" value.
+
+-- myGetLine
+-- Same as getLine, but showing how to write it.
+-- Uses "return".
+myGetLine = do
+    c <- getChar  -- getChar does what you think;
+                  --  return value is I/O-wrapped Char
+    if c == '\n'
+        then return ""
+        else do
+            rest <- myGetLine
+            return (c:rest)
+
+-- Note: Expressions in an I/O do-block need to return I/O actions, but
+--  they can be complicated expressions, like if-then-else above.
+
+-- inputLength'
+-- Same as inputLength, but rewritten to use myGetLine.
+inputLength' = do
+    putStr "Type some text: "
+    hFlush stdout      -- Make sure prompt comes before input
+    line <- myGetLine  -- Use our version of getLine
+    putStrLn ""
+    putStr "You typed this nonsense: "
+    putStrLn line
+    putStr "Length of your line = "
+    putStrLn $ show $ length line
+
+-- Try:
+--   inputLength'
+
+
+-- ***** "let" In a Do-Construction *****
+
+
+-- Final bit of do-block syntax:
+--   let NAME = EXPRESSION
+-- binds a name to a NON-I/O value, for remainder of do-block.
+
+-- squareEm
+-- Repeatedly input a number from the user. If 0, then quit; otherwise
+--  print its square, and repeat.
+squareEm = do
+    putStr "Type a number (0 to quit): "
+    hFlush stdout       -- Make sure prompt comes before input
+    line <- getLine     -- Bind name to I/O-wrapped value
+    let n = read line   -- Bind name to non-I/O value
+                        -- Compiler knows n is a number by how we use it
+    if n == 0
+        then return ()  -- Must have I/O action here, so make it null
+        else do
+            putStrLn ""
+            putStr "The square of your number is: "
+            putStrLn $ show $ n*n
+            putStrLn ""
+            squareEm   -- Repeat
+
+-- Try:
+--   squareEm
+
+-- Also see file squareem.hs
 
