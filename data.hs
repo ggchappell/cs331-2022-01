@@ -1,4 +1,4 @@
--- data.hs  UNFINISHED
+-- data.hs
 -- Glenn G. Chappell
 -- 2022-03-02
 --
@@ -167,5 +167,67 @@ rightSubtree BTEmpty = error "rightSubtree: given BT is empty"
 --   rootValue t2
 
 
--- TO BE CONTINUED ...
+-- ***** Treesort *****
+
+
+-- *Treesort* is a comparison sort that proceeds as follows: given a
+-- list, bstInsert each item into a Binary Search Tree. Then traverse
+-- the tree (inorder) to get the final sorted list.
+
+-- We can implement Treesort using our Binary Tree.
+
+-- Note that Treesort has some efficiency problems. And our
+-- implementation is rather inefficient -- even for Treesort. So
+-- function "treesort" (below) is not really practical. But it is, I
+-- think, an instructive example. (Also, it works.)
+
+-- bstInsert
+-- Given a Binary Search Tree (represented as type "BT vt",
+-- where vt is the value type) and an item, return the Binary Search
+-- Tree with the item inserted.
+--
+-- In a type annotation, we must require that vt is in type class Ord,
+-- since we compare is using the < operator.
+bstInsert :: (Ord vt) => BT vt -> vt -> BT vt
+bstInsert BTEmpty v = BTNode v BTEmpty BTEmpty
+bstInsert (BTNode vv lsub rsub) v
+    | v < vv     = BTNode vv (bstInsert lsub v) rsub
+    | otherwise  = BTNode vv lsub (bstInsert rsub v)
+
+-- inorderTraverse
+-- Given a Binary Tree, return a list of its items, in the order given
+-- by an inorder traversal.
+--
+-- Note that, for a Binary Search Tree, an inorder traversal will be
+-- sorted.
+inorderTraverse :: BT vt -> [vt]
+inorderTraverse BTEmpty = []
+inorderTraverse (BTNode v lsub rsub) =
+    inorderTraverse lsub ++ [v] ++ inorderTraverse rsub
+
+-- Now we can write Treesort. A key realization is that, given function
+-- "bstInsert" (above), which inserts a single item into a Binary Search
+-- Tree, we can insert a list of items using a fold operation.
+-- Specifically, given a list xs, a Binary Search Tree containing all
+-- items in xs is given by the following.
+--   foldl bstInsert BTEmpty xs
+
+-- treesort
+-- Return a sorted version of the given list. The sort is stable. The
+-- Treesort algorithm is used.
+treesort :: (Ord t) => [t] -> [t]
+treesort xs = inorderTraverse $ foldl bstInsert BTEmpty xs
+
+-- Try:
+--   treesort []
+--   treesort [5,4,3,2,1,2,3,4,5,4,3,2,1]
+--   treesort ["elk","pig","dog","yak","rat","cow","ape","cat","bat"]
+--   treesort ([1,3..100000] ++ [2,4..100000])
+
+-- The last line above illustrates the efficiency troubles with function
+-- treesort. In contrast, check out the following.
+
+-- Try:
+--   import Data.List
+--   sort ([1,3..100000] ++ [2,4..100000])
 
