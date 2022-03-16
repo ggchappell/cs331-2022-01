@@ -1,4 +1,4 @@
--- PA5.hs  INCOMPLETE
+-- PA5.hs  SKELETON
 -- Glenn G. Chappell
 -- 2022-03-16
 --
