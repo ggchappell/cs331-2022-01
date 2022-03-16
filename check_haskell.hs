@@ -15,6 +15,7 @@ main = do
     putStrLn "Secret message #2:"
     putStrLn ""
     putStrLn secret_message
+    putStrLn ""
 
 
 -- secret_message
