@@ -1,4 +1,4 @@
-\ adv.fs  UNFINISHED
+\ adv.fs
 \ Glenn G. Chappell
 \ 2022-03-21
 \
@@ -142,7 +142,14 @@ cr
 \ Does an in-place map, using the execution token as a function. That
 \ is, for each item in the array, passes the item to this function,
 \ replacing the array item with the result. Throws on bad array size.
-: map-array  \ TODO: WRITE THIS!!!
+: map-array { arr sizei xt -- }
+  sizei 0 < throw  \ Throw on negative array size (see NOTE above)
+  arr { loc }      \ loc: ptr to array item, used like a C++ iterator
+  sizei 0 ?do
+    i intsize * arr + { loc }  \ Get pointer to current array item
+    loc @ xt execute loc !     \ Map current array item
+                               \  Similar to C++: *loc = xt(*loc);
+  loop
 ;
 
 \ square
@@ -184,7 +191,13 @@ cr
 \ print-name
 \ Given the execution token for a word, prints a message giving the name
 \ of the word, in quotes.
-: print-name  \ TODO: WRITE THIS!!!
+: print-name  { xt -- }
+  cr
+  ." Name of word with given execution token: "
+  '"' emit
+  xt >name name>string type
+  '"' emit
+  cr
 ;
 
 \ Try:
