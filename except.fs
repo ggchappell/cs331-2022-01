@@ -1,4 +1,4 @@
-\ except.fs  UNFINISHED
+\ except.fs
 \ Glenn G. Chappell
 \ 2022-03-23
 \
@@ -116,8 +116,16 @@ cr
 \ mysqrt
 \ Given an integer, returns the floor of its square root. Throws on a
 \ negative parameter.
-: mysqrt  ( x -- sqrt(x) )
-  \ TODO: WRITE THIS!!!
+: mysqrt  { x -- sqrt(x) }
+  x 0 < if
+    s" mysqrt: parameter is negative" exception throw
+  endif
+  0 { k }
+  begin
+    k k * x <= while
+    k 1 + to k
+  repeat
+  k 1 -
 ;
 
 \ Try:
