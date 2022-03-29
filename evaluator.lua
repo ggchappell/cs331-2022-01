@@ -1,4 +1,4 @@
--- evaluator.lua  UNFINISHED
+-- evaluator.lua
 -- Glenn G. Chappell
 -- 2022-03-28
 --
@@ -48,8 +48,36 @@ varValues = {
 -- Takes AST in form specified in rdparser3.lua. Returns numeric value.
 -- No error checking is done.
 function evaluator.eval(ast)
-    return 42  -- DUMMY
-    -- TODO: WRITE THIS!!!
+    local result, varname, op, arg1, arg2
+
+    if ast[1] == NUMLIT_VAL then      -- Numeric literal
+        result = tonumber(ast[2])
+    elseif ast[1] == SIMPLE_VAR then  -- Numeric variable
+        varname = ast[2]
+        result = varValues[varname]
+        if result == nil then         -- Undefined variable
+            result = 0
+        end
+    else                              -- Binary operator
+        assert(type(ast[1]) == "table")
+        assert(ast[1][1] == BIN_OP)
+        op = ast[1][2]
+        arg1 = evaluator.eval(ast[2])
+        arg2 = evaluator.eval(ast[3])
+        if op == "+" then
+            result = arg1 + arg2
+        elseif op == "-" then
+            result = arg1 - arg2
+        elseif op == "*" then
+            result = arg1 * arg2
+        else
+            assert(op == "/")
+            result = arg1 / arg2  -- Let IEEE floating-point handle
+                                  --  things like div by zero
+        end
+    end
+
+    return result
 end
 
 
