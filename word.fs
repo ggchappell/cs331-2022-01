@@ -7,7 +7,7 @@
 
 
 cr cr
-." This file contains sample code from March 16, 2021," cr
+." This file contains sample code from March 16, 2022," cr
 ." for the topic 'Forth: Words'." cr
 ." It will execute, but it is not intended to do anything" cr
 ." useful. See the source." cr
