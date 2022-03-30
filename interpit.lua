@@ -217,6 +217,9 @@ function interpit.interp(ast, state, incall, outcall)
     -- value.
     function eval_expr(ast)
         print("*** UNIMPLEMENTED EXPRESSION")
+        result = 42  -- DUMMY VALUE
+
+        return result
     end
 
 
