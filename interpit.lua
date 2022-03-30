@@ -1,19 +1,10 @@
--- interpit.lua  UNFINISHED
+-- interpit.lua  INCOMPLETE
 -- Glenn G. Chappell
 -- 2022-03-30
 --
 -- For CS F331 / CSCE A331 Spring 2022
 -- Interpret AST from parseit.parse
 -- Solution to Assignment 6, Exercise 2
-
-
-
--- *********************************************************************
--- *                                                                   *
--- *  DO NOT USE THIS FILE YET! MORE WILL BE ADDED IN THE 3/30 CLASS.  *
--- *                                                                   *
--- *********************************************************************
-
 
 
 -- *** To run a Tenrec program, use tenrec.lua, which uses this file.
@@ -201,14 +192,43 @@ function interpit.interp(ast, state, incall, outcall)
     -- interp_stmt_list
     -- Given the ast for a statement list, execute it.
     function interp_stmt_list(ast)
-        print("*** UNIMPLEMENTED STATEMENT LIST")
+        for i = 2, #ast do
+            interp_stmt(ast[i])
+        end
     end
 
 
     -- interp_stmt
     -- Given the ast for a statement, execute it.
     function interp_stmt(ast)
-        print("*** UNIMPLEMENTED STATEMENT")
+        if ast[1] == PRINT_STMT then
+            for i = 2, #ast do
+                if ast[i][1] == STRLIT_OUT then
+                    local str = ast[i][2]
+                    outcall(str:sub(2, str:len()-1))
+                elseif ast[i][1] == CR_OUT then
+                    outcall("\n")
+                elseif ast[i][1] == CHAR_CALL then
+                    print("*** UNIMPLEMENTED WRITE ARG")
+                else  -- Expression
+                    local val = eval_expr(ast[i])
+                    outcall(numToStr(val))
+                end
+            end
+        elseif ast[1] == FUNC_DEF then
+            local funcname = ast[2]
+            local funcbody = ast[3]
+            state.f[funcname] = funcbody
+        elseif ast[1] == FUNC_CALL then
+            local funcname = ast[2]
+            local funcbody = state.f[funcname]
+            if funcbody == nil then
+                funcbody = { STMT_LIST }
+            end
+            interp_stmt_list(funcbody)
+        else
+            print("*** UNIMPLEMENTED STATEMENT")
+        end
     end
 
 
@@ -216,8 +236,14 @@ function interpit.interp(ast, state, incall, outcall)
     -- Given the AST for an expression, evaluate it and return the
     -- value.
     function eval_expr(ast)
-        print("*** UNIMPLEMENTED EXPRESSION")
-        result = 42  -- DUMMY VALUE
+        local result
+
+        if ast[1] == NUMLIT_VAL then
+            result = strToNum(ast[2])
+        else
+            print("*** UNIMPLEMENTED EXPRESSION")
+            result = 42  -- DUMMY VALUE
+        end
 
         return result
     end
