@@ -322,7 +322,7 @@ end
 
 
 -- isState
--- Return true if given value is properly formatted Caracal state table,
+-- Return true if given value is properly formatted Tenrec state table,
 -- false otherwise.
 function isState(tab)
     -- Is table?
@@ -491,7 +491,7 @@ function checkInterp(t, ast,
             end
         else
             pass = false
-            msg = msg .. "Returned state is not a Caracal state\n"
+            msg = msg .. "Returned state is not a Tenrec state\n"
         end
     end
 
