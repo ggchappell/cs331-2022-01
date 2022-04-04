@@ -1,4 +1,4 @@
-#lang scheme  UNFINISHED
+#lang scheme
 ; basic.scm
 ; Glenn G. Chappell
 ; 2022-04-04
@@ -164,5 +164,93 @@
 ; ***** Processing Lists *****
 
 
-; TO BE CONTINUED ...
+; Make a recursive call by using the word being defined inside its body.
+
+; To crash with an error message, pass a string to "error".
+
+; cond is the Scheme equivalent of Haskell's guards. It takes the place
+; of an if ... else if ... else if ... else construction. Note the
+; "else" as the last condition in the cond construction below.
+
+; len
+; Return the length of a list.
+(define (len xs)
+  (cond
+    [(null? xs)        0]
+    [(not (pair? xs))  (error "len: arg is not a list")]
+    [else              (+ 1 (len (cdr xs)))]
+    )
+  )
+
+; Try:
+;   (len '())
+;   (len '(1 2 3 4 5))
+;   (len 3)
+;   (len '(+ 1 2))
+;   (len (+ 1 2))
+
+; "null": variable whose value is an empty list. Can be used like '().
+
+; mymap
+; Given a 1-parameter procedure and a list. Does a "map".
+(define (mymap f xs)
+  (cond
+    [(null? xs)        null]
+    [(not (pair? xs))  (error "mymap: arg is not a list")]
+    [else              (cons
+                        (f (car xs))
+                        (mymap f (cdr xs))
+                        )]
+    )
+  )
+
+; Try:
+;   (mymap sqr '(2 33 -5 50 1 100))
+
+; lambda creates an unnamed procedure. The first argument of lambda is
+; like the first argument of define, without the name. The second
+; argument is just like the second argument of define.
+
+; Try:
+;   ((lambda (x y) (* 10 x y)) 3 4)
+;   (mymap (lambda (x) (* x x x)) '(2 33 -5 50 1 100))
+
+; myfilter
+; Given a 1-parameter predicate and a list. Does a "filter".
+; No error checking, other than automatic type checking.
+(define (myfilter p xs)
+  (cond
+    [(not (list? xs))  (error "myfilter: not given a list")]
+    [(null? xs)        null]
+    [else
+     (let (
+           [first  (car xs)]
+           [rest   (myfilter p (cdr xs))]
+           )
+       (cond
+         [(p first)  (cons first rest)]
+         [else       rest]
+         )
+       )
+     ]
+    )
+  )
+
+; Try:
+;   (myfilter even? '(2 33 -5 50 1 100))
+;   (myfilter big? '(2 33 -5 50 1 100))
+;   (myfilter (lambda (x) (< x 5)) '(2 33 -5 50 1 100))
+
+; lookup
+; Given integer and list, return the list item with that index. Uses
+; zero-based indexing.
+(define (lookup ix xs)
+  (cond
+    [(null? xs)        (error "lookup: index out of range")]
+    [(not (pair? xs))  (error "lookup: arg #2 is not a list")]
+    [(< ix 0)          (error "lookup: index out of range")]
+    [(= ix 0)          (car xs)]
+    [else              (lookup (- ix 1) (cdr xs))]
+    )
+  )
 
