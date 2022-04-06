@@ -196,7 +196,7 @@
 (define (mymap f xs)
   (cond
     [(null? xs)        null]
-    [(not (pair? xs))  (error "mymap: arg is not a list")]
+    [(not (pair? xs))  (error "mymap: arg #2 is not a list")]
     [else              (cons
                         (f (car xs))
                         (mymap f (cdr xs))
@@ -220,7 +220,7 @@
 ; No error checking, other than automatic type checking.
 (define (myfilter p xs)
   (cond
-    [(not (list? xs))  (error "myfilter: not given a list")]
+    [(not (list? xs))  (error "myfilter: arg #2 is not a list")]
     [(null? xs)        null]
     [else
      (let (
