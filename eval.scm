@@ -1,5 +1,5 @@
 #lang scheme
-; eval.scm  UNFINISHED
+; eval.scm
 ; Glenn G. Chappell
 ; 2022-04-06
 ;
@@ -44,7 +44,20 @@
 ; ***** Closures *****
 
 
-; TODO: WRITE SOMETHING HERE!!!
+; makemult
+; Given a number k, returns a function that multiplies by k.
+(define (makemult k)
+  (if (number? k)
+      (lambda (x) (* x k))
+      (error "makemult: arg is not a number")
+      )
+  )
+
+; Try:
+;   (define f (makemult 2))
+;   (define g (makemult 10))
+;    (f 7)
+;    (g 7)
 
 
 ; ***** Laziness *****
