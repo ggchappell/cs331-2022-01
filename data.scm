@@ -1,5 +1,5 @@
 #lang scheme
-; data.scm  UNFINISHED
+; data.scm
 ; Glenn G. Chappell
 ; 2022-04-08
 ;
@@ -83,11 +83,52 @@
 ; ***** Varying Number of Parameters *****
 
 
-; TODO: WRITE SOMETHING HERE!!!
+; add
+; Just like +.
+(define (add . args)
+  (cond
+    [(null? args)        0]
+    [(not (pair? args))  (error "add: args do not form a list")]
+    [else                (+ (car args) (apply add (cdr args)))]
+    )
+  )
+
+; Try:
+;   (add 3 6)
+;   (add 1 2 3 4 5 6)
+;   (add 42)
+;   (add)
 
 
 ; ***** Manipulating Trees *****
 
 
-; TODO: WRITE SOMETHING HERE!!!
+; atomsum
+; Return the sum of all the atoms in a tree. All atoms must be numbers.
+(define (atomsum t)
+  (cond
+    [(null? t)   0]
+    [(pair? t)   (+ (atomsum (car t)) (atomsum (cdr t)))]
+    [(number? t) t]
+    [else        (error "atomsum: atom is not a number")]
+    )
+  )
+
+; Try:
+;   (atomsum '(1 (3 (5) ((7 9))) 11 (((13))) () (15)))
+;   (atomsum '(20 "abc"))
+
+; atommap
+; Given a one-parameter procedure and a tree, return the tree with each
+; atom replaced by (f atom).
+(define (atommap f t)
+  (cond
+    [(null? t)   null]
+    [(pair? t)   (cons (atommap f (car t)) (atommap f (cdr t)))]
+    [else        (f t)]  ; Error if f cannot be called with t
+    )
+  )
+
+; Try:
+;   (atommap sqr '(1 (2 (3) ((4))) () (5)))
 
