@@ -1,0 +1,16 @@
+#!./tenrec.lua
+# hello.tenr
+# Glenn G. Chappell
+# 2022-04-01
+#
+# For CS F331 / CSCE A331 Spring 2022
+# Hello-world in Tenrec
+
+
+print("Hello, world!", cr);
+
+# Wait for user
+# (unnecessary with tenrec.lua, so commented out)
+#print(cr, "Press ENTER to quit ");
+#dummy = read();
+

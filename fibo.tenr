@@ -1,0 +1,52 @@
+#!./tenrec.lua
+# fibo.tenr
+# Glenn G. Chappell
+# 2022-04-01
+#
+# For CS F331 / CSCE A331 Spring 2022
+# Compute Fibonacci Numbers
+
+
+# The Fibonacci number F(n), for n >= 0, is defined by F(0) = 0,
+# F(1) = 1, and for n >= 2, F(n) = F(n-2) + F(n-1).
+
+
+# fibo (param in variable n)
+# Return Fibonacci number F(n).
+func fibo()
+{
+    currfib = 0;
+    nextfib = 1;
+    i = 0;
+    while (i < n)
+    {
+        # Advance (currfib, nextfib)
+        tmp = currfib + nextfib;
+        currfib = nextfib;
+        nextfib = tmp;
+        i = i+1;
+    }
+    return currfib;
+}
+
+
+# Main program
+# Print some Fibonacci numbers
+how_many_to_print = 20;
+
+print("Fibonacci Numbers", cr);
+
+j = 0;
+while (j < how_many_to_print)
+{
+    n = j;  # Set parameter for fibo
+    ff = fibo();
+    print("F(", j, ") = ", ff, cr);
+    j = j+1;
+}
+
+# Wait for user
+# (unnecessary with tenrec.lua, so commented out)
+#print(cr, "Press ENTER to quit ");
+#dummy = read();
+

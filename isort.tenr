@@ -1,0 +1,131 @@
+#!./tenrec.lua
+# isort.tenr
+# Glenn G. Chappell
+# 2022-04-01
+#
+# For CS F331 / CSCE A331 Spring 2022
+# Insertion Sort in Tenrec
+
+
+# All functions deal with array "data", whose length is given by
+# variable "datalen". We assume datalen >= 0, and items in data have
+# indices 0 .. datalen-1.
+
+
+# Function initData
+# Pushes initial, unsorted values into array data (described above).
+func initData()
+{
+    # Function push
+    # Do a "push back" of value v in data. Increases datalen by 1.
+    func push()
+    {
+        data[datalen] = v;
+        datalen = datalen+1;
+    }
+
+    v = 13;   push();
+    v = 86;   push();
+    v = -5;   push();
+    v = 0;    push();
+    v = 43;   push();
+    v = 6;    push();
+    v = 28;   push();
+    v = 4;    push();
+    v = 17;   push();
+    v = 6;    push();
+    v = 39;   push();
+    v = -85;  push();
+    v = 1;    push();
+    v = 6;    push();
+    v = 18;   push();
+    v = 34;   push();
+    v = 12;   push();
+    v = 3;    push();
+    v = 77;   push();
+    v = 9;    push();
+    v = 28;   push();
+    v = -1;   push();
+}
+
+
+# Function printData
+# Output items in array "data" (described above) on a single line, with
+# items separated by blanks, and the entire dataset followed by a
+# newline.
+func printData()
+{
+    jj = 0;
+    while (jj < datalen)
+    {
+        if (jj > 0)
+        {
+            print(" ");
+        }
+        print(data[jj]);
+        jj = jj + 1;
+    }
+    print(cr);
+}
+
+
+# Function insertionSort
+# Sort array data (described above), in ascending order, using Insertion
+# Sort.
+func insertionSort()
+{
+    # i is index of item to insert among earlier items
+    i = 1;
+    while (i < datalen)
+    {
+        savedata_i = data[i];  # Save item to insert
+        done = false;          # Have we found proper spot yet?
+        k = i;
+        while (k > 0 and not done)
+        {
+            if (not(savedata_i < data[k-1]))
+            {
+                done = true;   # Tenrec has no "break", so we do this
+            }
+            else
+            {
+                data[k] = data[k-1];
+                k = k-1;
+            }
+        }
+        # k is the spot where savedata_i goes; put it there
+        data[k] = savedata_i;
+
+        i = i+1;
+    }
+}
+
+
+# Main Program
+# Print unsorted data, sort it, and print result.
+
+# Print heading
+print("Tenrec - Insertion Sort Demo", cr, cr);
+
+# Make initial data
+initData();
+
+# Print initial data
+print("Initial data:", cr);
+printData();
+print(cr);
+
+# Sort
+print("Sorting", cr);
+insertionSort();
+print(cr);
+
+# Print sorted data
+print("Sorted data:", cr);
+printData();
+
+# Wait for user
+# (unnecessary with tenrec.lua, so commented out)
+#print(cr, "Press ENTER to quit ");
+#dummy = read();
+
