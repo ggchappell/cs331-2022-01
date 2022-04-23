@@ -1,4 +1,4 @@
-% flow.pl  UNFINISHED
+% flow.pl
 % Glenn G. Chappell
 % 2022-04-22
 %
@@ -172,8 +172,58 @@ not(_).
 % SWI-Prolog includes the functionality of "not", in the form of "\+".
 
 
-% ***** Other *****
+% ***** Other ***** NOT COVERED IN CLASS!
 
 
-% TO BE CONTINUED ....
+% true/0 always succeeds, but only once.
+
+% myrepeat/0 succeeds an unlimited number of times.
+myrepeat.
+myrepeat :- myrepeat.
+
+% SWI-Prolog includes the functionality of "myrepeat", in the form of
+% "repeat".
+
+% We can use myrepeat to do something like a while-true-break loop.
+
+squares_interact :-
+    myrepeat,
+        write('Type a number (0 to quit) followed by dot: '),
+        flush,
+        read(X),
+        nl,
+        write('You typed: '), write(X), nl,
+        X2 is X*X,
+        write('Its square: '), write(X2), nl,
+        nl,
+    X = 0,
+    write('Bye!'), nl.
+
+% Try:
+%   ?- squares_interact.
+
+% ";" is OR, just as "," is AND. The precedence of ";" is lower than
+% that of ",".
+
+% To deal with precedence issues, and to restrict the effect of a cut,
+% use parentheses, as below.
+
+% Here is squares_interact rewritten to do its "break" in the middle of
+% the loop.
+
+squares_interact2 :-
+    repeat,
+        write('Type a number (0 to quit) followed by dot: '),
+        flush,
+        read(X),
+        nl,
+        (X = 0, !
+        ;write('You typed: '), write(X), nl,
+        X2 is X*X,
+        write('Its square: '), write(X2), nl,
+        nl, fail),
+    write('Bye!'), nl.
+
+% Try:
+%   ?- squares_interact2.
 
